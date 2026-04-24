@@ -99,5 +99,42 @@ function move() {
 
 move();
 
-document.addEventListener('keydown', keyDown);
-document.addEventListener('keyup', keyUp);
+
+// disappearing the start button
+let start = document.querySelector('.start');
+function startGame() {
+    start.style.display = 'none';
+    document.addEventListener('keydown', keyDown);
+    document.addEventListener('keyup', keyUp);
+}
+
+start.addEventListener('click', startGame);
+
+// making the on-screen arrow buttons functional
+document.querySelector('#ubttn').addEventListener('click', () => {
+    upPressed = true;
+    downPressed = false;
+    leftPressed = false;
+    rightPressed = false;
+});
+
+document.querySelector('#dbttn').addEventListener('click', () => {
+    downPressed = true;
+    upPressed = false;
+    leftPressed = false;
+    rightPressed = false;
+});
+
+document.querySelector('#lbttn').addEventListener('click', () => {
+    leftPressed = true;
+    upPressed = false;
+    downPressed = false;
+    rightPressed = false;
+});
+
+document.querySelector('#rbttn').addEventListener('click', () => {
+    rightPressed = true;
+    upPressed = false;
+    downPressed = false;
+    leftPressed = false;
+});
