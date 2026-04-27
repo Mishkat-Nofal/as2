@@ -74,31 +74,64 @@ let playerTop = 0;
 let playerLeft = 0;
 
 function move() {
-    if (downPressed == true) {
-        playerTop += speed;
-        player.style.top = playerTop + 'px';
-        player.classList = 'down';
+    const position = player.getBoundingClientRect();
+
+    if (downPressed) {
+        let newBottom = position.bottom + 1;
+
+        let btmL = document.elementFromPoint(position.left, newBottom);
+        let btmR = document.elementFromPoint(position.right, newBottom);
+
+        if (btmL.classList.contains('wall') === false &&
+            btmR.classList.contains('wall') === false) {
+
+            player.style.top = position.top + 1 + "px";
+        }
     }
-    else if (upPressed == true) {
-        playerTop -= speed;
-        player.style.top = playerTop + 'px';
-        player.classList = 'up';
+
+    if (leftPressed) {
+        let newLeft = position.left - 1;
+
+        let topL = document.elementFromPoint(newLeft, position.top);
+        let btmL = document.elementFromPoint(newLeft, position.bottom);
+
+        if (topL.classList.contains('wall') === false &&
+            btmL.classList.contains('wall') === false) {
+
+            player.style.left = position.left - 1 + "px";
+        }
     }
-    else if (leftPressed == true) {
-        playerLeft -= speed;
-        player.style.left = playerLeft + 'px';
-        player.classList = 'left';
+
+    if (upPressed) {
+        let newTop = position.top - 1;
+
+        let topL = document.elementFromPoint(position.left, newTop);
+        let topR = document.elementFromPoint(position.right, newTop);
+
+        if (topL.classList.contains('wall') === false &&
+            topR.classList.contains('wall') === false) {
+
+            player.style.top = position.top - 1 + "px";
+        }
     }
-    else if (rightPressed == true) {
-        playerLeft += speed;
-        player.style.left = playerLeft + 'px';
-        player.classList = 'right';
+
+    if (rightPressed) {
+        let newRight = position.right + 1;
+
+        let topR = document.elementFromPoint(newRight, position.top);
+        let btmR = document.elementFromPoint(newRight, position.bottom);
+
+        if (topR.classList.contains('wall') === false &&
+            btmR.classList.contains('wall') === false) {
+
+            player.style.left = position.left + 1 + "px";
+        }
     }
+
     requestAnimationFrame(move);
 }
 
 move();
-
 
 // disappearing the start button
 let start = document.querySelector('.start');
