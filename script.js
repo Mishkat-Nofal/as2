@@ -39,7 +39,7 @@ maze.forEach((y) => {
             default:
                 block.classList.add('point')
         }
-        
+
         main.appendChild(block)
     })
 })
@@ -84,9 +84,10 @@ function move() {
 
         if (btmL.classList.contains('wall') === false &&
             btmR.classList.contains('wall') === false) {
-
-            player.style.top = position.top + 1 + "px";
+            playerTop++;
+            player.style.top = playerTop + "px";
         }
+
     }
 
     if (leftPressed) {
@@ -98,7 +99,8 @@ function move() {
         if (topL.classList.contains('wall') === false &&
             btmL.classList.contains('wall') === false) {
 
-            player.style.left = position.left - 1 + "px";
+            playerLeft--;
+            player.style.left = playerLeft + "px";
         }
     }
 
@@ -110,8 +112,9 @@ function move() {
 
         if (topL.classList.contains('wall') === false &&
             topR.classList.contains('wall') === false) {
+            playerTop--;
 
-            player.style.top = position.top - 1 + "px";
+            player.style.top = playerTop + "px";
         }
     }
 
@@ -124,11 +127,13 @@ function move() {
         if (topR.classList.contains('wall') === false &&
             btmR.classList.contains('wall') === false) {
 
-            player.style.left = position.left + 1 + "px";
+            playerLeft++;
+            player.style.left = playerLeft + "px";
         }
     }
 
     requestAnimationFrame(move);
+
 }
 
 move();
