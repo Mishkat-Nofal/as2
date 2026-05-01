@@ -58,6 +58,9 @@ function keyUp(event) {
 }
 
 function keyDown(event) {
+
+    stopMovement();
+
     if (event.key === 'ArrowUp') {
         upPressed = true;
     } else if (event.key === 'ArrowDown') {
@@ -151,26 +154,23 @@ function startGame() {
 start.addEventListener('click', startGame);
 
 // making the on-screen arrow buttons functional
-document.querySelector('#ubttn').addEventListener('click', () => {
-    upPressed = true;
-    downPressed = false;
-    leftPressed = false;
-    rightPressed = false;
-});
+const lBttn = document.querySelector('#lbttn');
+const rBttn = document.querySelector('#rbttn');
+const uBttn = document.querySelector('#ubttn');
+const dBttn = document.querySelector('#dbttn');
 
-document.querySelector('#dbttn').addEventListener('click', () => {
-    downPressed = true;
-    upPressed = false;
-    leftPressed = false;
-    rightPressed = false;
-});
+lbttn.addEventListener('click', () => { stopMovement(); leftPressed = true; });
+rbttn.addEventListener('click', () => { stopMovement(); rightPressed = true; });
+ubttn.addEventListener('click', () => { stopMovement(); upPressed = true; });
+dbttn.addEventListener('click', () => { stopMovement(); downPressed = true; });
 
-document.querySelector('#lbttn').addEventListener('click', () => {
-    leftPressed = true;
+function stopMovement() {
+    rightPressed = false;
+    leftPressed = false;
     upPressed = false;
     downPressed = false;
-    rightPressed = false;
-});
+
+}
 
 document.querySelector('#rbttn').addEventListener('click', () => {
     rightPressed = true;
@@ -179,6 +179,7 @@ document.querySelector('#rbttn').addEventListener('click', () => {
     leftPressed = false;
 });
 
+// collecting points
 function check() {
     let position = player.getBoundingClientRect();
     let points = document.querySelectorAll('.point');
