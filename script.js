@@ -134,6 +134,8 @@ function move() {
 
     requestAnimationFrame(move);
 
+    check()
+
 }
 
 move();
@@ -176,3 +178,20 @@ document.querySelector('#rbttn').addEventListener('click', () => {
     downPressed = false;
     leftPressed = false;
 });
+
+function check() {
+    let position = player.getBoundingClientRect();
+    let points = document.querySelectorAll('.point');
+
+    for (let i = 0; i < points.length; i++) {
+        let pos = points[i].getBoundingClientRect();
+        if (
+            position.right > pos.left &&
+            position.left < pos.right &&
+            position.bottom > pos.top &&
+            position.top < pos.bottom
+        ) {
+            points[i].classList.remove('point');
+        }
+    }
+}
