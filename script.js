@@ -149,6 +149,78 @@ function startGame() {
     start.style.display = 'none';
     document.addEventListener('keydown', keyDown);
     document.addEventListener('keyup', keyUp);
+
+    const ghosts = document.querySelectorAll('.enemy');
+
+    for (let ghost of ghosts) {
+        moveGhost(ghost);
+    }
+}
+
+// ghost movement
+function moveGhost(ghost) {
+    let ghostTop = 0;
+    let ghostLeft = 0;
+    let random = Math.ceil(Math.random() * 4);
+
+    setInterval(function () {
+        // collision detection for ghosts
+        const position = ghost.getBoundingClientRect();
+        if (random == 1) {
+            let newBottom = position.bottom + 1;
+            let btmL = document.elementFromPoint(position.left, newBottom);
+            let btmR = document.elementFromPoint(position.right, newBottom);
+
+            if (btmL.classList.contains('wall') == false && btmR.classList.contains('wall') == false) {
+                ghostTop += speed;
+            }
+            else {
+                random = Math.ceil(Math.random() * 4);
+            }
+        }
+
+        else if (random == 2) {
+            let newTop = position.top - 1;
+            let topL = document.elementFromPoint(position.left, newTop);
+            let topR = document.elementFromPoint(position.right, newTop);
+
+            if (topL.classList.contains('wall') == false && topR.classList.contains('wall') == false) {
+                ghostTop -= speed;
+            }
+            else {
+                random = Math.ceil(Math.random() * 4);
+            }
+        }
+
+        else if (random == 3) {
+            let newLeft = position.left - 1;
+            let topL = document.elementFromPoint(newLeft, position.top);
+            let btmL = document.elementFromPoint(newLeft, position.bottom);
+
+            if (topL.classList.contains('wall') == false && btmL.classList.contains('wall') == false) {
+                ghostLeft -= speed;
+            }
+            else {
+                random = Math.ceil(Math.random() * 4);
+            }
+        }
+
+        else if (random == 4) {
+            let newRight = position.right + 1;
+            let topR = document.elementFromPoint(newRight, position.top);
+            let btmR = document.elementFromPoint(newRight, position.bottom);
+
+            if (topR.classList.contains('wall') == false && btmR.classList.contains('wall') == false) {
+                ghostLeft += speed;
+            }
+            else {
+                random = Math.ceil(Math.random() * 4);
+            }
+        }
+
+        ghost.style.top = ghostTop + 'px';
+        ghost.style.left = ghostLeft + 'px';
+    }, 10);
 }
 
 start.addEventListener('click', startGame);
