@@ -9,16 +9,33 @@ let speed = 1 // Change players speed
 // Player = 'P', Wall = '*', Enemy = 'E', Point = ' '
 let maze = [
     ['*', '*', '*', '*', '*', '*', '*', '*', '*', '*'],
-    ['*', 'P', ' ', '*', ' ', ' ', ' ', ' ', 'E', '*'],
+    ['*', 'P', ' ', '*', ' ', ' ', ' ', ' ', ' ', '*'],
     ['*', ' ', ' ', ' ', ' ', ' ', ' ', '*', '*', '*'],
     ['*', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '*'],
     ['*', ' ', '*', '*', ' ', ' ', ' ', ' ', ' ', '*'],
     ['*', ' ', ' ', ' ', ' ', ' ', ' ', '*', '*', '*'],
-    ['*', ' ', ' ', '*', ' ', 'E', ' ', ' ', ' ', '*'],
+    ['*', ' ', ' ', '*', ' ', ' ', ' ', ' ', ' ', '*'],
     ['*', ' ', ' ', ' ', ' ', ' ', ' ', '*', ' ', '*'],
-    ['*', 'E', '*', ' ', ' ', ' ', ' ', ' ', ' ', '*'],
+    ['*', ' ', '*', ' ', ' ', ' ', ' ', ' ', ' ', '*'],
     ['*', '*', '*', '*', '*', '*', '*', '*', '*', '*']
 ];
+
+// randomizing the ghosts
+function addGhost() {
+    let x = Math.floor(Math.random() * maze.length);
+    let y = Math.floor(Math.random() * maze[x].length);
+
+    if (maze[x][y] === ' ') {
+        maze[x][y] = 'E';
+    }
+    else {
+        addGhost();
+    }
+}
+
+addGhost();
+addGhost();
+addGhost();
 
 // Populates the maze
 maze.forEach((y) => {
@@ -163,7 +180,7 @@ function moveGhost(ghost) {
     let ghostLeft = 0;
     let random = Math.ceil(Math.random() * 4);
 
-    setInterval(function () {
+    let timer = setInterval(function () {
         // collision detection for ghosts
         const position = ghost.getBoundingClientRect();
         if (random == 1) {
@@ -221,6 +238,14 @@ function moveGhost(ghost) {
         ghost.style.top = ghostTop + 'px';
         ghost.style.left = ghostLeft + 'px';
     }, 10);
+}
+
+function clearGhosts() {
+    const ghosts = document.querySelectorAll('.enemy');
+
+    for (let ghost of ghosts) {
+        ghost.parentNode.removeChild(ghost);
+    }
 }
 
 start.addEventListener('click', startGame);
