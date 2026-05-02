@@ -293,3 +293,20 @@ function check() {
         }
     }
 }
+
+
+function removeLife() {
+    const li = document.querySelector('.lives ul li');
+    li.parentNode.removeChild(li);
+}
+
+function addLife() {
+    const ul = document.querySelector('.lives ul');
+    const li = document.createElement('li');
+
+    ul.appendChild(li);
+}
+
+addLife();
+addLife();
+addLife();
