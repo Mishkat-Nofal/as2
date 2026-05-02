@@ -100,6 +100,8 @@ function move() {
     const position = player.getBoundingClientRect();
 
     if (downPressed) {
+        setDirection('down');
+
         let newBottom = position.bottom + 1;
 
         let btmL = document.elementFromPoint(position.left, newBottom);
@@ -114,6 +116,8 @@ function move() {
     }
 
     if (leftPressed) {
+        setDirection('left');
+
         let newLeft = position.left - 1;
 
         let topL = document.elementFromPoint(newLeft, position.top);
@@ -128,6 +132,8 @@ function move() {
     }
 
     if (upPressed) {
+        setDirection('up');
+
         let newTop = position.top - 1;
 
         let topL = document.elementFromPoint(position.left, newTop);
@@ -142,6 +148,8 @@ function move() {
     }
 
     if (rightPressed) {
+        setDirection('right');
+
         let newRight = position.right + 1;
 
         let topR = document.elementFromPoint(newRight, position.top);
@@ -157,7 +165,13 @@ function move() {
 
     requestAnimationFrame(move);
 
-    check()
+    check();
+
+    // setting the direction of mouth during movement
+    function setDirection(direction) {
+        player.classList.remove('up', 'down', 'left', 'right');
+        player.classList.add(direction);
+    }
 
 }
 
