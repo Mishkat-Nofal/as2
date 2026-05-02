@@ -3,6 +3,9 @@ let downPressed = false;
 let leftPressed = false;
 let rightPressed = false;
 
+let score = 0;
+const pointsDisplay = document.querySelector('.score p');
+
 const main = document.querySelector('main');
 let speed = 1 // Change players speed
 
@@ -290,11 +293,17 @@ function check() {
             position.top < pos.bottom
         ) {
             points[i].classList.remove('point');
+            updateScore();
         }
     }
 }
 
+function updateScore() {
+    score++;
+    pointsDisplay.innerHTML = score;
+}
 
+// adding lives 
 function removeLife() {
     const li = document.querySelector('.lives ul li');
     li.parentNode.removeChild(li);
