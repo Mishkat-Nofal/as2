@@ -143,3 +143,29 @@ button:nth-child(4) {grid-area: downArrow; }
 
 .dead {animation: deathAnimation 1.5s ease-in-out forwards;}
 .hit {animation: hitAnimation 1.5s steps(1, end);}
+
+.GameOver {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 25px;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-family: 'Press Start 2P', monospace;
+    color: white;
+    border-radius: 20px;
+    height: auto;
+    width: auto;
+    background: #ccc;
+    box-shadow: 4px 4px 4px #000;
+}
+
+.GameOver h1 {
+    text-shadow: 2px 2px 2px #000;
+	font-size: 2em;
+    text-decoration: none;
+}

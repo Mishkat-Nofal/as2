@@ -9,6 +9,8 @@ const pointsDisplay = document.querySelector('.score p');
 const main = document.querySelector('main');
 let speed = 1 // Change players speed
 
+let gameOver = false;
+
 // Player = 'P', Wall = '*', Enemy = 'E', Point = ' '
 let maze = [
     ['*', '*', '*', '*', '*', '*', '*', '*', '*', '*'],
@@ -163,7 +165,9 @@ function move() {
         }
     }
 
-    requestAnimationFrame(move);
+    if (gameOver == false) {
+        requestAnimationFrame(move);
+    }
 
     check();
 
@@ -198,6 +202,12 @@ function moveGhost(ghost) {
     let random = Math.ceil(Math.random() * 4);
 
     let timer = setInterval(function () {
+
+        if (gameOver) {
+            clearInterval(timer);
+            return;
+        }
+
         // collision detection for ghosts
         const position = ghost.getBoundingClientRect();
         if (random == 1) {
@@ -268,10 +278,10 @@ function clearGhosts() {
 start.addEventListener('click', startGame);
 
 // making the on-screen arrow buttons functional
-const lBttn = document.querySelector('#lbttn');
-const rBttn = document.querySelector('#rbttn');
-const uBttn = document.querySelector('#ubttn');
-const dBttn = document.querySelector('#dbttn');
+const lbttn = document.querySelector('#lbttn');
+const rbttn = document.querySelector('#rbttn');
+const ubttn = document.querySelector('#ubttn');
+const dbttn = document.querySelector('#dbttn');
 
 lbttn.addEventListener('click', () => { stopMovement(); leftPressed = true; });
 rbttn.addEventListener('click', () => { stopMovement(); rightPressed = true; });
@@ -310,6 +320,18 @@ function check() {
             updateScore();
         }
     }
+
+    let remainingPoints = document.querySelectorAll('.point');
+
+    if (remainingPoints.length === 0 && gameOver === false) {
+        gameOver = true;
+
+        let showGameOver = document.querySelector('.GameOver');
+        showGameOver.style.display = 'flex';
+
+        stopMovement();
+    }
+
 }
 
 function updateScore() {
