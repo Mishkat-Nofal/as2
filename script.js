@@ -165,11 +165,12 @@ function move() {
         }
     }
 
+    enemyCollision();
+    check();
+
     if (gameOver == false) {
         requestAnimationFrame(move);
     }
-
-    check();
 
     // setting the direction of mouth during movement
     function setDirection(direction) {
@@ -177,6 +178,28 @@ function move() {
         player.classList.add(direction);
     }
 
+}
+
+// enemy collision
+function enemyCollision() {
+    const enemies = document.querySelectorAll('.enemy');
+    const position = player.getBoundingClientRect();
+
+    for (let enemy of enemies) {
+        const enemyPosition = enemy.getBoundingClientRect();
+
+        if (position.right > enemyPosition.left && 
+            position.left < enemyPosition.right && 
+            position.bottom > enemyPosition.top && 
+            position.top < enemyPosition.bottom) {
+            
+            gameOver = true;
+            document.querySelector('.GameOver').style.display = 'flex';
+            stopMovement();
+            return;
+
+        }
+    }
 }
 
 move();

@@ -162,6 +162,7 @@ button:nth-child(4) {grid-area: downArrow; }
     width: auto;
     background: #ccc;
     box-shadow: 4px 4px 4px #000;
+    z-index: 999;
 }
 
 .GameOver h1 {
