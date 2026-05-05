@@ -188,18 +188,28 @@ function enemyCollision() {
     for (let enemy of enemies) {
         const enemyPosition = enemy.getBoundingClientRect();
 
-        if (position.right > enemyPosition.left && 
-            position.left < enemyPosition.right && 
-            position.bottom > enemyPosition.top && 
+        if (position.right > enemyPosition.left &&
+            position.left < enemyPosition.right &&
+            position.bottom > enemyPosition.top &&
             position.top < enemyPosition.bottom) {
-            
-            gameOver = true;
-            document.querySelector('.GameOver').style.display = 'flex';
-            stopMovement();
-            return;
 
+            GameOver();
+            return;
         }
     }
+}
+
+function GameOver() {
+    gameOver = true;
+    document.querySelector('.GameOver').style.display = 'flex';
+    stopMovement();
+
+    const name = prompt('Enter your name:')
+    if (name && name.trim() != '') {
+        addToLeaderboard(name.trim(), score);
+        saveScore(name.trim(), score);
+    }
+
 }
 
 move();
@@ -347,12 +357,7 @@ function check() {
     let remainingPoints = document.querySelectorAll('.point');
 
     if (remainingPoints.length === 0 && gameOver === false) {
-        gameOver = true;
-
-        let showGameOver = document.querySelector('.GameOver');
-        showGameOver.style.display = 'flex';
-
-        stopMovement();
+        GameOver();
     }
 
 }
@@ -378,3 +383,29 @@ function addLife() {
 addLife();
 addLife();
 addLife();
+
+// leaderboard
+const ol = document.querySelector('.leaderboard ol');
+
+function addToLeaderboard(name, highscore) {
+    const li = document.createElement('li');
+    const text = document.createTextNode(`${name}............${highscore}`);
+    li.appendChild(text);
+    ol.appendChild(li);
+}
+
+function saveScore(name, score) {
+    localStorage.setItem(name, score);
+}
+
+function getLeaderboard() {
+    for (let i = 0; i < localStorage.length; i++) {
+        let key = localStorage.key(i);
+        let value = localStorage.getItem(key);
+        if (key && value) {
+            addToLeaderboard(key, value);
+        }
+    }
+}
+
+getLeaderboard();
