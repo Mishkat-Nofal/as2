@@ -12,6 +12,8 @@ let speed = 1 // Change players speed
 let gameOver = false;
 let isDead = false;
 
+let lives = 3;
+
 // Player = 'P', Wall = '*', Enemy = 'E', Point = ' '
 let maze = [
     ['*', '*', '*', '*', '*', '*', '*', '*', '*', '*'],
@@ -202,7 +204,7 @@ function enemyCollision() {
             position.bottom > enemyPosition.top &&
             position.top < enemyPosition.bottom) {
 
-            GameOver();
+            loseLife();
             return;
         }
     }
@@ -222,6 +224,37 @@ function GameOver() {
             saveScore(name.trim(), score);
         }
         document.querySelector('.GameOver').style.display = 'flex';
+    }, 1500);
+}
+
+function loseLife() {
+    if (gameOver || isDead) {
+        return;
+    }
+
+    isDead = true;
+
+    lives--;
+    removeLife();
+
+    if (lives == 0) {
+        GameOver();
+        return;
+    }
+
+    player.classList.add('dead');
+    playerTop = 0;
+    playerLeft = 0;
+
+    player.style.top = '0px';
+    player.style.left = '0px';
+
+    stopMovement();
+
+    setTimeout(() => {
+        player.classList.remove('dead');
+        isDead = false;
+        requestAnimationFrame(move);
     }, 1500);
 }
 
@@ -380,7 +413,6 @@ function updateScore() {
     pointsDisplay.innerHTML = score;
 }
 
-// adding lives 
 function removeLife() {
     const li = document.querySelector('.lives ul li');
     li.parentNode.removeChild(li);
