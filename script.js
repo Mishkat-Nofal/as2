@@ -399,13 +399,29 @@ function saveScore(name, score) {
 }
 
 function getLeaderboard() {
+    // clear existing entries to help sort
+    ol.innerHTML = '';
+
+    // getting scores from local storage
+    let leaderboardArray = [];
+
     for (let i = 0; i < localStorage.length; i++) {
         let key = localStorage.key(i);
         let value = localStorage.getItem(key);
         if (key && value) {
-            addToLeaderboard(key, value);
+            leaderboardArray.push([key, value]);
         }
     }
+
+    // sorting
+    // reference: developer.mozilla.org. (n.d.). Array.prototype.sort() - JavaScript | MDN. [online] Available at: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort.
+    leaderboardArray.sort((a, b) => b[1] - a[1]);
+
+    // display top 10 scores
+    // reference: developer.mozilla.org. (2024). Array.prototype.slice() - JavaScript | MDN. [online] Available at: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice.
+    leaderboardArray.slice(0, 10).forEach(board => {
+        addToLeaderboard(board[0], board[1]);
+    });
 }
 
 getLeaderboard();
