@@ -10,6 +10,7 @@ const main = document.querySelector('main');
 let speed = 1 // Change players speed
 
 let gameOver = false;
+let isDead = false;
 
 // Player = 'P', Wall = '*', Enemy = 'E', Point = ' '
 let maze = [
@@ -99,6 +100,10 @@ let playerTop = 0;
 let playerLeft = 0;
 
 function move() {
+    if (gameOver || isDead) {
+        return;
+    }
+
     const position = player.getBoundingClientRect();
 
     if (downPressed) {
@@ -168,20 +173,24 @@ function move() {
     enemyCollision();
     check();
 
-    if (gameOver == false) {
-        requestAnimationFrame(move);
-    }
+    requestAnimationFrame(move);
 
     // setting the direction of mouth during movement
     function setDirection(direction) {
-        player.classList.remove('up', 'down', 'left', 'right');
-        player.classList.add(direction);
+        if (isDead == false) {
+            player.classList.remove('up', 'down', 'left', 'right');
+            player.classList.add(direction);
+        }
     }
 
 }
 
 // enemy collision
 function enemyCollision() {
+    if (isDead || gameOver) {
+        return;
+    }
+
     const enemies = document.querySelectorAll('.enemy');
     const position = player.getBoundingClientRect();
 
@@ -201,15 +210,19 @@ function enemyCollision() {
 
 function GameOver() {
     gameOver = true;
-    document.querySelector('.GameOver').style.display = 'flex';
+    isDead = true;
     stopMovement();
 
-    const name = prompt('Enter your name:')
-    if (name && name.trim() != '') {
-        addToLeaderboard(name.trim(), score);
-        saveScore(name.trim(), score);
-    }
+    player.classList.add('dead');
 
+    setTimeout(() => {
+        const name = prompt('Enter your name:')
+        if (name && name.trim() != '') {
+            addToLeaderboard(name.trim(), score);
+            saveScore(name.trim(), score);
+        }
+        document.querySelector('.GameOver').style.display = 'flex';
+    }, 1500);
 }
 
 move();

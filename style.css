@@ -170,3 +170,7 @@ button:nth-child(4) {grid-area: downArrow; }
 	font-size: 2em;
     text-decoration: none;
 }
+
+#player.dead {
+    animation: deathAnimation 1.5s ease-in-out;
+}
