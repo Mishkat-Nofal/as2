@@ -172,5 +172,8 @@ button:nth-child(4) {grid-area: downArrow; }
 }
 
 #player.dead {
-    animation: deathAnimation 1.5s ease-in-out;
+    animation: deathAnimation 1.5s ease-in-out forwards;
+}
+#player.hit {
+    animation: hitAnimation 1.5s steps(1, end);
 }

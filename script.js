@@ -234,26 +234,28 @@ function loseLife() {
 
     isDead = true;
 
+    stopMovement();
+
+    player.classList.add('hit');
+
     lives--;
     removeLife();
 
-    if (lives == 0) {
-        GameOver();
-        return;
-    }
-
-    player.classList.add('dead');
-    playerTop = 0;
-    playerLeft = 0;
-
-    player.style.top = '0px';
-    player.style.left = '0px';
-
-    stopMovement();
-
     setTimeout(() => {
-        player.classList.remove('dead');
+        player.classList.remove('hit');
+        if (lives == 0) {
+            GameOver();
+            return;
+        }
+
+        playerTop = 0;
+        playerLeft = 0;
+
+        player.style.top = '0px';
+        player.style.left = '0px';
+        
         isDead = false;
+
         requestAnimationFrame(move);
     }, 1500);
 }
