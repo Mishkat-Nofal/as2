@@ -417,9 +417,9 @@ function getLeaderboard() {
     // reference: developer.mozilla.org. (n.d.). Array.prototype.sort() - JavaScript | MDN. [online] Available at: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort.
     leaderboardArray.sort((a, b) => b[1] - a[1]);
 
-    // display top 10 scores
+    // display top 5 scores
     // reference: developer.mozilla.org. (2024). Array.prototype.slice() - JavaScript | MDN. [online] Available at: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice.
-    leaderboardArray.slice(0, 10).forEach(board => {
+    leaderboardArray.slice(0, 5).forEach(board => {
         addToLeaderboard(board[0], board[1]);
     });
 }
