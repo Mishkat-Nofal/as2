@@ -11,36 +11,57 @@ let speed = 1 // Change players speed
 
 let gameOver = false;
 
-// Player = 'P', Wall = '*', Enemy = 'E', Point = ' '
-let maze = [
-    ['*', '*', '*', '*', '*', '*', '*', '*', '*', '*'],
-    ['*', 'P', ' ', '*', ' ', ' ', ' ', ' ', ' ', '*'],
-    ['*', ' ', ' ', ' ', ' ', ' ', ' ', '*', '*', '*'],
-    ['*', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '*'],
-    ['*', ' ', '*', '*', ' ', ' ', ' ', ' ', ' ', '*'],
-    ['*', ' ', ' ', ' ', ' ', ' ', ' ', '*', '*', '*'],
-    ['*', ' ', ' ', '*', ' ', ' ', ' ', ' ', ' ', '*'],
-    ['*', ' ', ' ', ' ', ' ', ' ', ' ', '*', ' ', '*'],
-    ['*', ' ', '*', ' ', ' ', ' ', ' ', ' ', ' ', '*'],
-    ['*', '*', '*', '*', '*', '*', '*', '*', '*', '*']
-];
+let level = 1;
+let enemyCount = 1;
 
-// randomizing the ghosts
-function addGhost() {
-    let x = Math.floor(Math.random() * maze.length);
-    let y = Math.floor(Math.random() * maze[x].length);
+// random maze
+function randomMaze() {
+    // Player = 'P', Wall = '*', Enemy = 'E', Point = ' '
+    maze = [
+        ['*', '*', '*', '*', '*', '*', '*', '*', '*', '*'],
+        ['*', 'P', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '*'],
+        ['*', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '*'],
+        ['*', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '*'],
+        ['*', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '*'],
+        ['*', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '*'],
+        ['*', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '*'],
+        ['*', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '*'],
+        ['*', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '*'],
+        ['*', '*', '*', '*', '*', '*', '*', '*', '*', '*']
+    ];
 
-    if (maze[x][y] === ' ') {
-        maze[x][y] = 'E';
-    }
-    else {
-        addGhost();
+    // increasing walls to increase level of difficulty
+    let wallCount = 8 + (level * 2);
+    let placed = 0;
+
+    while (placed < wallCount) {
+        let row = Math.floor(Math.random() * 8) + 1;
+        let col = Math.floor(Math.random() * 8) + 1;
+        if (maze[row][col] === ' ') {
+            maze[row][col] = '*';
+            placed++;
+        }
     }
 }
 
-addGhost();
-addGhost();
-addGhost();
+randomMaze();
+
+// randomizing the ghosts
+function addGhost(count) {
+    for (let i = 0; i < count; i++) {
+        while (true) {
+            let x = Math.floor(Math.random() * maze.length);
+            let y = Math.floor(Math.random() * maze[x].length);
+
+            if (maze[x][y] === ' ') {
+                maze[x][y] = 'E';
+                break;
+            }
+        }
+    }
+}
+
+addGhost(enemyCount);
 
 // Populates the maze
 maze.forEach((y) => {
@@ -357,7 +378,9 @@ function check() {
     let remainingPoints = document.querySelectorAll('.point');
 
     if (remainingPoints.length === 0 && gameOver === false) {
-        GameOver();
+        level++;
+        enemyCount++;
+        alert('Level Completed');
     }
 
 }
