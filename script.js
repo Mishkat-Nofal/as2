@@ -17,6 +17,8 @@ let lives = 3;
 let level = 1;
 let enemyCount = 1;
 
+maze = [];
+
 // random maze
 function randomMaze() {
     // Player = 'P', Wall = '*', Enemy = 'E', Point = ' '
@@ -65,30 +67,33 @@ function addGhost(count) {
 }
 
 addGhost(enemyCount);
+mazeCreation();
 
 // Populates the maze
-maze.forEach((y) => {
-    y.forEach((x) => {
-        let block = document.createElement('div')
-        block.classList = 'block'
+function mazeCreation() {
+    maze.forEach((y) => {
+        y.forEach((x) => {
+            let block = document.createElement('div')
+            block.classList = 'block'
 
-        switch (x) {
-            case '*':
-                block.classList.add('wall')
-                break;
-            case 'P':
-                block.id = 'player';
-                break;
-            case 'E':
-                block.classList.add('enemy');
-                break
-            default:
-                block.classList.add('point')
-        }
+            switch (x) {
+                case '*':
+                    block.classList.add('wall')
+                    break;
+                case 'P':
+                    block.id = 'player';
+                    break;
+                case 'E':
+                    block.classList.add('enemy');
+                    break
+                default:
+                    block.classList.add('point')
+            }
 
-        main.appendChild(block)
+            main.appendChild(block)
+        })
     })
-})
+}
 
 // Player movement
 function keyUp(event) {
@@ -118,7 +123,7 @@ function keyDown(event) {
     }
 }
 
-const player = document.querySelector('#player');
+let player = document.querySelector('#player');
 let playerTop = 0;
 let playerLeft = 0;
 
@@ -274,7 +279,7 @@ function loseLife() {
 
         player.style.top = '0px';
         player.style.left = '0px';
-        
+
         isDead = false;
 
         requestAnimationFrame(move);
@@ -495,3 +500,49 @@ function getLeaderboard() {
 }
 
 getLeaderboard();
+
+// restart game
+const restartbttn = document.querySelector('#restartbttn');
+
+restartbttn.addEventListener('click', restartGame);
+
+function restartGame() {
+    score = 0;
+    level = 1;
+    enemyCount = 1;
+    gameOver = false;
+    isDead = false;
+    lives = 3;
+
+    pointsDisplay.innerHTML = score;
+
+    stopMovement();
+
+    document.querySelector('.GameOver').style.display = 'none';
+
+    main.innerHTML = '';
+
+    document.querySelector('.lives ul').innerHTML = '';
+
+    addLife();
+    addLife();
+    addLife();
+
+    playerTop = 0;
+    playerLeft = 0;
+
+    randomMaze();
+    addGhost(enemyCount);
+
+    mazeCreation();
+
+    player = document.querySelector('#player');
+
+    move();
+
+    const ghosts = document.querySelectorAll('.enemy');
+
+    ghosts.forEach((ghost) => {
+        moveGhost(ghost);
+    });
+}
