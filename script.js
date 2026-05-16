@@ -129,6 +129,7 @@ let playerLeft = 0;
 
 function move() {
     if (gameOver || isDead) {
+        requestAnimationFrame(move);
         return;
     }
 
@@ -282,11 +283,10 @@ function loseLife() {
 
         isDead = false;
 
-        requestAnimationFrame(move);
     }, 1500);
 }
 
-move();
+requestAnimationFrame(move);
 
 // disappearing the start button
 let start = document.querySelector('.start');
@@ -434,6 +434,23 @@ function check() {
         level++;
         enemyCount++;
         alert('Level Completed');
+
+        main.innerHTML = '';
+
+        playerTop = 0;
+        playerLeft = 0;
+
+        randomMaze();
+        addGhost(enemyCount);
+        mazeCreation();
+
+        player = document.querySelector('#player');
+
+        const ghosts = document.querySelectorAll('.enemy');
+
+        ghosts.forEach((ghost) => {
+            moveGhost(ghost);
+        });
     }
 
 }
@@ -537,8 +554,6 @@ function restartGame() {
     mazeCreation();
 
     player = document.querySelector('#player');
-
-    move();
 
     const ghosts = document.querySelectorAll('.enemy');
 
