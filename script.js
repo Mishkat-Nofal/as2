@@ -19,6 +19,10 @@ let enemyCount = 1;
 
 maze = [];
 
+const levelCompleted = document.querySelector('.LevelComplete');
+const nextLevelbttn = document.querySelector('.nextLevelbttn');
+const quitbttn = document.querySelector('.quitbttn');
+
 // random maze
 function randomMaze() {
     // Player = 'P', Wall = '*', Enemy = 'E', Point = ' '
@@ -308,10 +312,10 @@ function moveGhost(ghost) {
     let ghostLeft = 0;
     let random = Math.ceil(Math.random() * 4);
 
-    let timer = setInterval(function () {
+    ghost.timer = setInterval(function () {
 
         if (gameOver) {
-            clearInterval(timer);
+            clearInterval(ghost.timer);
             return;
         }
 
@@ -378,6 +382,7 @@ function clearGhosts() {
     const ghosts = document.querySelectorAll('.enemy');
 
     for (let ghost of ghosts) {
+        clearInterval(ghost.timer);
         ghost.parentNode.removeChild(ghost);
     }
 }
@@ -403,13 +408,6 @@ function stopMovement() {
 
 }
 
-document.querySelector('#rbttn').addEventListener('click', () => {
-    rightPressed = true;
-    upPressed = false;
-    downPressed = false;
-    leftPressed = false;
-});
-
 // collecting points
 function check() {
     let position = player.getBoundingClientRect();
@@ -431,29 +429,41 @@ function check() {
     let remainingPoints = document.querySelectorAll('.point');
 
     if (remainingPoints.length === 0 && gameOver === false) {
+        stopMovement();
         level++;
         enemyCount++;
-        alert('Level Completed');
 
-        main.innerHTML = '';
-
-        playerTop = 0;
-        playerLeft = 0;
-
-        randomMaze();
-        addGhost(enemyCount);
-        mazeCreation();
-
-        player = document.querySelector('#player');
-
-        const ghosts = document.querySelectorAll('.enemy');
-
-        ghosts.forEach((ghost) => {
-            moveGhost(ghost);
-        });
+        levelCompleted.style.display = 'flex';
     }
 
 }
+
+function nextLevel() {
+    levelCompleted.style.display = 'none';
+    clearGhosts();
+
+    main.innerHTML = '';
+
+    playerTop = 0;
+    playerLeft = 0;
+
+    randomMaze();
+    addGhost(enemyCount);
+    mazeCreation();
+
+    player = document.querySelector('#player');
+
+    const ghosts = document.querySelectorAll('.enemy');
+
+    ghosts.forEach((ghost) => {
+        moveGhost(ghost);
+    });
+}
+
+nextLevelbttn.addEventListener('click', nextLevel);
+quitbttn.addEventListener('click', () => {
+    GameOver();
+})
 
 function updateScore() {
     score++;
@@ -536,6 +546,8 @@ function restartGame() {
     stopMovement();
 
     document.querySelector('.GameOver').style.display = 'none';
+
+    clearGhosts();
 
     main.innerHTML = '';
 

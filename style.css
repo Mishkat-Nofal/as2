@@ -193,3 +193,68 @@ button:nth-child(4) {grid-area: downArrow; }
 #restartbttn:hover {
     background: orange;
 }
+
+.LevelComplete {
+    display: none;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,0.8);
+    z-index: 999;
+}
+
+.box {
+    background: #111111;
+    border: 4px solid yellow;
+    border-radius: 20px;
+    padding: 40px;
+    text-align: center;
+    width: 350px;
+    box-shadow: 0 0 20px yellow;
+}
+
+.box h1 {
+    color: yellow;
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.buttons button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#nextLevelbttn {
+    background: yellow;
+    color: black;
+}
+
+#nextLevelbttn:hover {
+    background: gold;
+    transform: scale(1.05);
+}
+
+#quitbttn {
+    background: crimson;
+    color: white;
+}
+
+#quitbttn:hover {
+    background: red;
+    transform: scale(1.05);
+}
