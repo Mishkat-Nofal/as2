@@ -17,7 +17,7 @@ let lives = 3;
 let level = 1;
 let enemyCount = 1;
 
-let levelTransition = false;
+let levelComplete = false;
 
 maze = [];
 
@@ -134,7 +134,7 @@ let playerTop = 0;
 let playerLeft = 0;
 
 function move() {
-    if (gameOver || isDead) {
+    if (gameOver || isDead || levelComplete) {
         requestAnimationFrame(move);
         return;
     }
@@ -244,6 +244,8 @@ function enemyCollision() {
 }
 
 function GameOver() {
+    levelCompleted.style.display = 'none';
+
     gameOver = true;
     isDead = true;
     stopMovement();
@@ -442,10 +444,11 @@ function check() {
 
     if (remainingPoints.length === 0 &&
         gameOver === false &&
-        levelTransition === false) {
+        levelComplete === false) {
 
-        levelTransition = true;
+        levelComplete = true;
 
+        levelComplete = true;
         clearGhostTimers();
         stopMovement();
 
@@ -458,8 +461,7 @@ function check() {
 }
 
 function nextLevel() {
-
-    levelTransition = false;
+    levelComplete = false;
 
     clearGhostTimers();
 
@@ -485,6 +487,8 @@ function nextLevel() {
 
 nextLevelbttn.addEventListener('click', nextLevel);
 quitbttn.addEventListener('click', () => {
+    levelCompleted.style.display = 'none';
+    levelComplete = false;
     GameOver();
 })
 
@@ -565,6 +569,7 @@ function restartGame() {
     gameOver = false;
     isDead = false;
     lives = 3;
+    levelComplete = false;
 
     pointsDisplay.innerHTML = score;
 
