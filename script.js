@@ -20,8 +20,8 @@ let enemyCount = 1;
 maze = [];
 
 const levelCompleted = document.querySelector('.LevelComplete');
-const nextLevelbttn = document.querySelector('.nextLevelbttn');
-const quitbttn = document.querySelector('.quitbttn');
+const nextLevelbttn = document.querySelector('#nextLevelbttn');
+const quitbttn = document.querySelector('#quitbttn');
 
 // random maze
 function randomMaze() {
@@ -312,10 +312,10 @@ function moveGhost(ghost) {
     let ghostLeft = 0;
     let random = Math.ceil(Math.random() * 4);
 
-    ghost.timer = setInterval(function () {
+    let timer = setInterval(function () {
 
         if (gameOver) {
-            clearInterval(ghost.timer);
+            clearInterval(timer);
             return;
         }
 
@@ -382,7 +382,6 @@ function clearGhosts() {
     const ghosts = document.querySelectorAll('.enemy');
 
     for (let ghost of ghosts) {
-        clearInterval(ghost.timer);
         ghost.parentNode.removeChild(ghost);
     }
 }
@@ -440,7 +439,6 @@ function check() {
 
 function nextLevel() {
     levelCompleted.style.display = 'none';
-    clearGhosts();
 
     main.innerHTML = '';
 
@@ -546,8 +544,6 @@ function restartGame() {
     stopMovement();
 
     document.querySelector('.GameOver').style.display = 'none';
-
-    clearGhosts();
 
     main.innerHTML = '';
 
