@@ -256,6 +256,8 @@ function GameOver() {
         }
         document.querySelector('.GameOver').style.display = 'flex';
     }, 1500);
+
+    clearGhostTimers();
 }
 
 function loseLife() {
@@ -307,6 +309,8 @@ function startGame() {
 }
 
 // ghost movement
+let ghostTimers = [];
+
 function moveGhost(ghost) {
     let ghostTop = 0;
     let ghostLeft = 0;
@@ -376,6 +380,8 @@ function moveGhost(ghost) {
         ghost.style.top = ghostTop + 'px';
         ghost.style.left = ghostLeft + 'px';
     }, 10);
+
+    ghostTimers.push(timer);
 }
 
 function clearGhosts() {
@@ -384,6 +390,11 @@ function clearGhosts() {
     for (let ghost of ghosts) {
         ghost.parentNode.removeChild(ghost);
     }
+}
+
+function clearGhostTimers() {
+    ghostTimers.forEach(timer => clearInterval(timer));
+    ghostTimers = [];
 }
 
 start.addEventListener('click', startGame);
@@ -428,6 +439,7 @@ function check() {
     let remainingPoints = document.querySelectorAll('.point');
 
     if (remainingPoints.length === 0 && gameOver === false) {
+        clearGhostTimers();
         stopMovement();
         level++;
         enemyCount++;
@@ -438,6 +450,8 @@ function check() {
 }
 
 function nextLevel() {
+    clearGhostTimers();
+
     levelCompleted.style.display = 'none';
 
     main.innerHTML = '';
@@ -532,6 +546,8 @@ const restartbttn = document.querySelector('#restartbttn');
 restartbttn.addEventListener('click', restartGame);
 
 function restartGame() {
+    clearGhostTimers();
+
     score = 0;
     level = 1;
     enemyCount = 1;
