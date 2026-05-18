@@ -17,6 +17,8 @@ let lives = 3;
 let level = 1;
 let enemyCount = 1;
 
+let levelTransition = false;
+
 maze = [];
 
 const levelCompleted = document.querySelector('.LevelComplete');
@@ -438,9 +440,15 @@ function check() {
 
     let remainingPoints = document.querySelectorAll('.point');
 
-    if (remainingPoints.length === 0 && gameOver === false) {
+    if (remainingPoints.length === 0 &&
+        gameOver === false &&
+        levelTransition === false) {
+
+        levelTransition = true;
+
         clearGhostTimers();
         stopMovement();
+
         level++;
         enemyCount++;
 
@@ -450,6 +458,9 @@ function check() {
 }
 
 function nextLevel() {
+
+    levelTransition = false;
+
     clearGhostTimers();
 
     levelCompleted.style.display = 'none';
